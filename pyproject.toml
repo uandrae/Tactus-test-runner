@@ -13,7 +13,7 @@
   requires = ["poetry-core"]
 
 [tool.poetry.dependencies]
-  deode = {git = "git@github.com:uandrae/Deode-Prototype.git", branch = "release/v0.23.0"}
+  deode = {git = "git@github.com:uandrae/Deode-Prototype.git", branch = "bugfix/no_symlinks"}
   #deode = {git = "git@github.com:destination-earth-digital-twins/Deode-Workflow.git", tag = "v0.22.0"}
   dicttoxml = "^1.0.0"
   python = ">=3.10,<3.13"

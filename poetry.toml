@@ -1,7 +1,7 @@
 [virtualenvs]
   create = true
   in-project = false
-  path = "/scratch/snh/deode_virtualenvs"
+  path = "/perm/snh/deode_virtualenvs"
   prefer-active-python = true
 
 [virtualenvs.options]

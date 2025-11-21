@@ -98,7 +98,7 @@ class TestCases:
         else:
             tag = "Unknown"
 
-        tag = tag.replace("/", "_").replace(".", "_")
+        tag = tag.replace("/", "_").replace(".", "_") + "_"
         return tag
 
     def expand_tests(self, defs):
