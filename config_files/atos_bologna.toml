@@ -198,10 +198,11 @@
   active = false
 
 [modifs.fdb.expver_restrictions]
+  test = ["snh02", "lrb_465000527_efdev"]
   ulfs = ["snh", "andraeul"]
 
 [modifs.fdb.grib_set]
-  expver = "ulfs"
+  expver = "0098"
 
 [modifs.general.times]
   # counter for starting days, this is to test different days

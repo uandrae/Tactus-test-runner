@@ -175,14 +175,14 @@
 
 # Global modifications
 [modifs.archiving.FDB.fdb.fpgrib_files]
-  active = true
+  active = false
 
 [modifs.fdb.expver_restrictions]
-  0098 = ["snh02", "lrb_465000527_efdev"]
+  test = ["snh02", "lrb_465000527_efdev"]
   ulfs = ["snh", "andraeul"]
 
 [modifs.fdb.grib_set]
-  expver = "ulfs"
+  expver = "0098"
 
 [modifs.boundaries]
   max_interpolation_tasks = -1
