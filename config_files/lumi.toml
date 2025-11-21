@@ -5,7 +5,7 @@
     "arome",
     "harmonie_arome",
   ]
-  tag = "@USER@_v0_23_0_"
+  # tag = "@USER@_v0_23_0_"
   # Uncomment this for intel and gnu runs
   #subtags = [
     #{intel_ = []},

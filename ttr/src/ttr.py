@@ -23,8 +23,10 @@ class TestCases:
             args (argsparse objectl): Command line arguments
 
         """
-        with open(args.config_file, "rb") as f:
-            definitions = tomli.load(f)
+        definitions = {"general": {}, "modifs": {}}
+        if args.config_file is not None:
+            with open(args.config_file, "rb") as f:
+                definitions = tomli.load(f)
 
         self.verbose = args.verbose
         self.definitions = definitions
@@ -61,9 +63,10 @@ class TestCases:
         self.dry = args.dry if args.dry else definitions["general"].get("dry", True)
         self.modifs = definitions["modifs"]
 
-        with contextlib.suppress(KeyError):
-            if definitions["ial"].get("active", False):
-                self.expand_tests(definitions)
+        if args.config_file is not None:
+            with contextlib.suppress(KeyError):
+                if definitions["ial"].get("active", False):
+                    self.expand_tests(definitions)
 
         self.test_dir = definitions.get("test_dir", f"{self.tag}configs")
 
@@ -200,7 +203,6 @@ class TestCases:
             _extra = item["extra"] if "extra" in item else []
             for e in _extra:
                 extra.append(e)  # noqa PERF402
-            suffix = item["suffix"] if "suffix" in item else ""
             hostname = item["hostname"] if "hostname" in item else ""
             hostdomain = item["hostdomain"] if "hostdomain" in item else ""
             cmd = self.get_cmd(
@@ -211,7 +213,6 @@ class TestCases:
                 base,
                 extra=extra,
                 host=host,
-                suffix=suffix,
                 hostname=hostname,
                 hostdomain=hostdomain,
             )
@@ -260,7 +261,6 @@ class TestCases:
             self.modif(
                 i,
                 case,
-                host=f"{tag}{subtag}{host}",
                 hostname=hostname,
                 hostdomain=hostdomain,
                 subtag=subtag,
@@ -405,7 +405,7 @@ def execute(t):
 
 def main():
     """Main routine for the test runner."""
-    parser = argparse.ArgumentParser(add_help=False)
+    parser = argparse.ArgumentParser()
     parser.add_argument(
         "--list",
         "-l",
@@ -427,7 +427,7 @@ def main():
         "-c",
         dest="config_file",
         help="Used config file",
-        required=True,
+        required=False,
     )
     parser.add_argument(
         "--verbose",
@@ -449,13 +449,12 @@ def main():
     args = parser.parse_args()
 
     t = TestCases(args=args)
-    sys.exit()
 
     if args.prepare_binaries:
         t.get_binaries()
     elif args.list:
         t.list()
-    else:
+    elif args.config_file is not None:
         execute(t)
 
 
