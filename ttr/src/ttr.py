@@ -70,11 +70,11 @@ class TestCases:
             subtag_selection = []
             for key in subtags:
                 tag, v = key.popitem()
-                for selection in self.selection:
-                    subtag = f"{tag}{selection}"
-                    x = copy.deepcopy(self.cases[selection])
+                for sel in selection:
+                    subtag = f"{tag}{sel}"
+                    x = copy.deepcopy(self.cases[sel])
                     if "base" not in x:
-                        x["base"] = selection
+                        x["base"] = sel
                     if "host" in x:
                         x["host"] = f"{tag}{x['host']}"
                     x["subtag"] = tag
@@ -218,7 +218,8 @@ class TestCases:
                 extra.append(e)  # noqa PERF402
             hostname = item["hostname"] if "hostname" in item else ""
             hostdomain = item["hostdomain"] if "hostdomain" in item else ""
-            cmd = self.get_cmd(
+            print("CASE   ->:",case)
+            self.cmds[case] = self.get_cmd(
                 j,
                 case,
                 subtag,
@@ -227,7 +228,6 @@ class TestCases:
                 hostname=hostname,
                 hostdomain=hostdomain,
             )
-            self.cmds[case] = cmd
 
     def get_cmd(
         self,
@@ -242,13 +242,13 @@ class TestCases:
         """Construct the final command.
 
         Arguments:
-           i (x): x
-           case (x): x
-           subtag (x): x
-           base (x): x
-           extra (x): x
-           hostname (x): x
-           hostdomain (x): x
+           i (integer): Counter for days to go backwards
+           case (str): Case to construct
+           subtag (str): Extra tab
+           base (str): Base configuration
+           extra (list): Additional configration files to include
+           hostname (str): Name of the host configuration
+           hostdomain (str): Name of the host domain
 
         Returns:
            cmd (list): List of commands
@@ -388,7 +388,7 @@ def execute(t):
     """Execute the stuff.
 
     Arguments:
-        t (x): x
+        t (TestCases object): Object with test cases to execute
 
     """
     # Check dependencies
@@ -403,10 +403,8 @@ def execute(t):
     # Create and run
     t.create()
 
-    cmd = []
-    if not t.dry:
-        cmd.append("--start-suite")
-    t.configure(cmd)
+    # Run
+    t.configure(([] if t.dry else ["--start-suite"]))
 
 
 def main():
