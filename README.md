@@ -63,7 +63,7 @@ The config file has a for main sections: general, case, modifs and ial. Here we 
 
 ### General
 
-The general section defines the selection of cases and possible compiler extensions. If tag is not set it's taken from the used tactus branch or tag.
+The general section defines the selection of cases and possible compiler extensions. If tag is not set it's taken from the used tactus branch or tag. In extra we can define extra config files to include.
 
 ```
 [general]
@@ -77,6 +77,7 @@ The general section defines the selection of cases and possible compiler extensi
     {intel_ = []},
     {gnu_ = ["deode/data/config_files/modifications/submission/atos_bologna_gnu.toml"]},
   ]
+  extra = []
 
 ```
 
@@ -84,10 +85,9 @@ The general section defines the selection of cases and possible compiler extensi
 
 Here we define the config settings per case.
 
-- start sets days backwards from today for general.times.start
 - base gives the config to start from
 - host defines the forcing run for a target run
-- extra is extra config files to add
+- extra is extra config files to add for this specific case
 - case.X.modifs.Y allows to modify abitrary config settings for this case only
 
 ```
@@ -98,11 +98,9 @@ Here we define the config settings per case.
     "deode/data/config_files/include/eps/eps_7members.toml",
     "deode/data/config_files/include/eps/alaro.toml",
   ]
-  start = 1
 
 [cases.cy49t2_alaro_eps.modifs.eps.general]
   members = "0:3"
-
 ```
 
 ### Modifs

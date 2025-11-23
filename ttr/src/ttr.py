@@ -212,11 +212,9 @@ class TestCases:
             host_case = item["hostname"] if "hostname" in item else ""
             host_domain = item["hostdomain"] if "hostdomain" in item else ""
 
-            extra = list(self.extra)
-            _extra = item["extra"] if "extra" in item else []
-            for e in _extra:
-                extra.append(e)  # noqa PERF402
+            extra = list(self.extra) + (item["extra"] if "extra" in item else [])
 
+            # Merge and replace macros
             modifs = merge_dicts(self.modifs, self.cases[case].get("modifs", {}), True)
             config = self.config.copy(
                 update={
@@ -233,6 +231,7 @@ class TestCases:
             with contextlib.suppress(KeyError):
                 config = config.expand_macros(True)
 
+            # Build the command
             self.cmds[case] = self.get_cmd(
                 case,
                 config["modifs"],
@@ -350,7 +349,7 @@ def execute(t, args):
         args (ArgsPares object): Command line arguments
 
     """
-    # Check dependencies
+    # Check dependencies and create possible host cases
     host_cases = t.prepare()
     t.create(host_cases)
     hostnames = t.configure()
