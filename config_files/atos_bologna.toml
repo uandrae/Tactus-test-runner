@@ -30,4 +30,5 @@
 
 [include]
   cases = "config_files/case_definitions.toml"
+  macros = "config_files/macros.toml"
   modifs = "config_files/modifs_atos_bologna.toml"

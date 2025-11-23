@@ -14,8 +14,8 @@
 
 [modifs.general.times]
   # counter for starting days, this is to test different days
-  end = "-P{i}D"
-  start = "-P{i}D"
+  end = "-P@COUNTER@D"
+  start = "-P@COUNTER@D"
 
 [modifs.macros.select.release_test]
   os_macros = ["PERM"]
@@ -25,7 +25,7 @@
   remote_path = "/mirror_globalDT_iekm/pabv/iekm/fc/main/fcgroup/00/model"
 
 [modifs.scheduler.ecfvars]
-  case_prefix = "{tag}{subtag}"
+  case_prefix = "@TAG@@SUBTAG@"
   ecf_files = "@PERM@/deode_ecflow/ecf_files"
   ecf_files_remotely = "@PERM@/deode_ecflow/ecf_files"
   ecf_home = "@PERM@/deode_ecflow/jobout"
@@ -40,5 +40,5 @@
 
 [modifs.system]
   # Picks up the case name and domain from the host run
-  host_case = "{hostname}"
-  host_domain = "{hostdomain}"
+  host_case = "@HOST_CASE@"
+  host_domain = "@HOST_DOMAIN@"
