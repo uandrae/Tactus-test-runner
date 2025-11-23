@@ -22,6 +22,9 @@
   build_tar_path = "/scratch/deployde330"
   ial_hash = "33d75b06b0bf09a01246d1e14ffae42334399af6"
 
+[include]
+  cases = "config_files/case_definitions.toml"
+
 [modifs.cleaning.PostMortem.ecf_files]
   active = false
 
@@ -41,6 +44,3 @@
   # Picks up the case name and domain from the host run
   host_case = "{hostname}"
   host_domain = "{hostdomain}"
-
-[include]
-  cases = "config_files/case_definitions.toml"

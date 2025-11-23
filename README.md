@@ -19,10 +19,11 @@ Define the correct tactus version to use in pyproject.toml. This may be a tag or
   #deode = {git = "git@github.com:destination-earth-digital-twins/Deode-Workflow.git", tag = "v0.22.0"}
 ```
 
-Define the location of your virtual environment in poetry.toml
+Optionally define the location of your virtual environment in poetry.toml
 
 ```
 [virtualenvs]
+  in-project = false
   path = "some_useful_path"
 ```
 
@@ -36,7 +37,7 @@ poetry install
 ## Check
 
 ```
-ttr -c CURRENT_HOST.toml -l
+ttr -c config_files/CURRENT_HOST.toml -l
 ```
 
 where CURRENT_HOST is one of atos_bologna or lumi
@@ -46,7 +47,7 @@ where CURRENT_HOST is one of atos_bologna or lumi
 ttr -c CURRENT_HOST.toml
 ```
 
-This will create a directory according to the tag and create all config files in this directory. For each config a tactus run will be launched. To only prepare config files without running tactus do.
+This will create a directory according to the tag and create all config files in this directory. For each config a tactus ecflow run will be launched. To only prepare config files without running tactus do:
 
 ```
 ttr -c CURRENT_HOST.toml -d 

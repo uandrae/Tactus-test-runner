@@ -1,5 +1,6 @@
 [general]
   selection = ["alaro"]
+
 [include]
   cases = "config_files/case_definitions.toml"
   modifs = "config_files/modifs_lumi.toml"

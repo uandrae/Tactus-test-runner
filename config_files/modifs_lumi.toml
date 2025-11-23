@@ -2,17 +2,17 @@
 [modifs.archiving.FDB.fdb.fpgrib_files]
   active = true
 
-[modifs.fdb.expver_restrictions]
-  ulfs = ["snh", "andraeul"]
-
-[modifs.fdb.grib_set]
-  expver = "ulfs"
-
 [modifs.boundaries]
   max_interpolation_tasks = -1
 
 [modifs.cleaning.PostMortem.ecf_files]
   active = false
+
+[modifs.fdb.expver_restrictions]
+  ulfs = ["snh", "andraeul"]
+
+[modifs.fdb.grib_set]
+  expver = "ulfs"
 
 [modifs.general.times]
   # counter for starting days, this is to test different days

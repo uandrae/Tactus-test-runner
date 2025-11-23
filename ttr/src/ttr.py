@@ -5,12 +5,10 @@ import copy
 import glob
 import os
 from pathlib import Path
-import subprocess
-import sys
 
 import tomli
 import tomlkit
-from deode.__main__ import main as deode_main
+from deode.__main__ import deode as tactus_main
 from deode.config_parser import GeneralConstants
 from deode.general_utils import merge_dicts
 
@@ -204,15 +202,7 @@ class TestCases:
             if case not in cases:
                 continue
 
-            host = ""
-            if "host" in item:
-                j = assigned[item["host"]]
-                host = item["host"]
-            elif "start" in item:
-                j = item["start"]
-            else:
-                j = assigned[case]
-
+            j = assigned[item["host"]] if "host" in item else assigned[case]
             base = item["base"] if "base" in item else case
             subtag = item["subtag"] if "subtag" in item else ""
             extra = list(self.extra)
@@ -325,9 +315,6 @@ class TestCases:
         Arguments:
             cmds (list, optional): List of commands (str)
 
-        Raises:
-            RunTimeErrors: For subcommand errors
-
         Returns:
             cases (dict): Dict of cases to run
         """
@@ -340,8 +327,11 @@ class TestCases:
                 cmd.append(c)
             cmd_txt = " ".join(cmd)
             print(f"Use cmd:\n\n{cmd_txt}\n\n")
-            deode_main(cmd)
 
+            # Call tactus main to create new config, and possibly start suite
+            tactus_main(cmd)
+
+            # Update the case settings
             directory = Path(self.test_dir)
             config_file = max(directory.glob("*.toml"), key=lambda f: f.stat().st_mtime)
             with open(config_file, "rb") as f:
