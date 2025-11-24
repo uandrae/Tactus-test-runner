@@ -25,12 +25,12 @@
 [modifs.submission]
   max_ecf_tasks = 25
 
+[modifs.submission.task_exceptions.PgdFilterTownFrac.ENV]
+  ECF_TRIES = 15
+
 [modifs.submission.types.serial.BATCH]
   MEM = "#SBATCH --mem=0GB"
   PARTITION = "#SBATCH --partition=standard"
-
-[modifs.submission.task_exceptions.PgdFilterTownFrac.ENV]
-  ECF_TRIES = 15
 
 [modifs.suite_control]
   do_archiving = false

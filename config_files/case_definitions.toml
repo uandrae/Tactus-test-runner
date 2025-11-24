@@ -16,8 +16,6 @@
 
 [cases.arome]
 
-[cases.harmonie_arome]
-
 [cases.cy46h1_harmonie_arome]
 
 [cases.cy46h1_harmonie_arome_target]
@@ -58,6 +56,9 @@
   base = "cy49t2_alaro"
   extra = ["deode/data/config_files/modifications/operational_settings.toml"]
 
+[cases.cy49t2_alaro_operational_tomorrow.modifs.archiving.prefix]
+  ecfs = "ec:/@USER@/DE_NWP/deode/@COMPILER@/"
+
 [cases.cy49t2_alaro_operational_tomorrow.modifs.general]
   case = "@CASE_PREFIX@oper_tomorrow_@CSC@_@XDX@m_@DOMAIN@_@YMD_START@"
   event_type = "nwp"
@@ -65,6 +66,9 @@
 [cases.cy49t2_alaro_operational_tomorrow.modifs.general.times]
   end = "P1D"
   start = "P1D"
+
+[cases.cy49t2_alaro_operational_tomorrow.modifs.system]
+  scratch_oper = "@SCRATCH@/DE_NWP/deode/@COMPILER@"
 
 [cases.cy49t2_alaro_target]
   host = "cy49t2_alaro"
@@ -109,6 +113,9 @@
   base = "arome"
   extra = ["deode/data/config_files/modifications/operational_settings.toml"]
 
+[cases.cy49t2_arome_large_domain_operational.modifs.archiving.prefix]
+  ecfs = "ec:/@USER@/DE_NWP/deode/@COMPILER@/"
+
 [cases.cy49t2_arome_large_domain_operational.modifs.general]
   case = "@CASE_PREFIX@oper_@CSC@_@XDX@m_@DOMAIN@_@YMD_START@"
   event_type = "nwp"
@@ -116,6 +123,9 @@
 [cases.cy49t2_arome_large_domain_operational.modifs.general.times]
   end = "-P1D"
   start = "-P1D"
+
+[cases.cy49t2_arome_large_domain_operational.modifs.system]
+  scratch_oper = "@SCRATCH@/DE_NWP/deode/@COMPILER@"
 
 [cases.cy49t2_arome_target]
   host = "cy49t2_arome_dp"
@@ -181,3 +191,5 @@
 [cases.cy49t2_harmonie_arome_use_offline.modifs.general.times]
   end = "-P1D"
   start = "-P1D"
+
+[cases.harmonie_arome]
