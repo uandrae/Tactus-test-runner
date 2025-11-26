@@ -33,6 +33,7 @@ Install the package and all tactus dependencies with poetry. Potentially locate 
 
 ```
 poetry install
+```
 
 ## Check
 

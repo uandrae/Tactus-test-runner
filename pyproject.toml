@@ -13,9 +13,9 @@
   requires = ["poetry-core"]
 
 [tool.poetry.dependencies]
-  #deode = {git = "git@github.com:uandrae/Deode-Prototype.git", branch = "bugfix/no_symlinks"}
-  deode = {git = "git@github.com:uandrae/Deode-Prototype.git", branch = "ttr/v0.23.0"}
-  #deode = {git = "git@github.com:destination-earth-digital-twins/Deode-Workflow.git", tag = "v0.22.0"}
+  deode = {git = "git@github.com:destination-earth-digital-twins/Deode-Workflow.git", branch = "develop"}
+  #deode = {git = "git@github.com:destination-earth-digital-twins/Deode-Workflow.git", tag = "v0.24.0"}
+  #deode = { path = "SOME_PATH/Deode-Workflow.git", develop = true }
   dicttoxml = "^1.0.0"
   python = ">=3.10,<3.13"
 
