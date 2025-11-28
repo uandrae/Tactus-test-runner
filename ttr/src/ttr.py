@@ -211,7 +211,7 @@ class TestCases:
             host_case = item["hostname"] if "hostname" in item else ""
             host_domain = item["hostdomain"] if "hostdomain" in item else ""
 
-            extra = list(self.extra) + (item["extra"] if "extra" in item else [])
+            extra = list(self.extra) + (list(item["extra"]) if "extra" in item else [])
 
             logger.info("{} -> COUNTER:{} HOST_CASE:{}", case, counter, host_case)
             # Merge and replace macros
