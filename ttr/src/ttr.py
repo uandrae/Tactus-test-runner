@@ -214,7 +214,6 @@ class TestCases:
 
             extra = list(self.extra) + (list(item["extra"]) if "extra" in item else [])
 
-            logger.info("{} -> COUNTER:{} HOST_CASE:{}", case, counter, host_case)
             # Merge and replace macros
             modifs = merge_dicts(self.modifs, self.cases[case].get("modifs", {}), True)
             config = self.config.copy(
