@@ -21,17 +21,21 @@
 [cases.cy46h1_harmonie_arome_target]
   host = "cy46h1_harmonie_arome"
 
+[cases.cy46h1_harmonie_arome_target.suite_control]
+  mirror_host_case = true
+
 [cases.cy48t3_alaro]
 
-[cases.cy48t3_arome]
-
-[cases.cy48t3_arome_airquality]
-  base = "cy48t3_arome"
-  extra = ["deode/data/config_files/modifications/event_type/airquality.toml"]
-  start = 4
-
-[cases.cy48t3_arome_target]
-  host = "cy48t3_arome"
+# Deactivate until fixed
+#
+# [cases.cy48t3_arome]
+#
+# [cases.cy48t3_arome_target]
+#   host = "cy48t3_arome"
+#
+# [cases.cy48t3_arome_target.suite_control]
+#   mirror_host_case = true
+#
 
 [cases.cy49t2_alaro]
 
@@ -45,12 +49,12 @@
 [cases.cy49t2_alaro_eps.modifs.eps.general]
   members = "0:3"
 
-[cases.cy49t2_alaro_eps.modifs.general]
-  case = "@CASE_PREFIX@@CYCLE@_@CSC@_@EVENT_TYPE@_@DOMAIN@_@YMD_START@_eps"
-
 [cases.cy49t2_alaro_eps.modifs.general.times]
   end = "-P1D"
   start = "-P1D"
+
+[cases.cy49t2_alaro_eps.modifs.system]
+  case_suffix = "_eps"
 
 [cases.cy49t2_alaro_operational_tomorrow]
   base = "cy49t2_alaro"
@@ -60,7 +64,6 @@
   ecfs = "ec:/@USER@/DE_NWP/deode/@COMPILER@/"
 
 [cases.cy49t2_alaro_operational_tomorrow.modifs.general]
-  case = "@CASE_PREFIX@oper_tomorrow_@CSC@_@XDX@m_@DOMAIN@_@YMD_START@"
   event_type = "nwp"
 
 [cases.cy49t2_alaro_operational_tomorrow.modifs.general.times]
@@ -68,21 +71,25 @@
   start = "P1D"
 
 [cases.cy49t2_alaro_operational_tomorrow.modifs.system]
+  case_suffix = "_oper_tomorrow"
   scratch_oper = "@SCRATCH@/DE_NWP/deode/@COMPILER@"
 
 [cases.cy49t2_alaro_target]
   host = "cy49t2_alaro"
+
+[cases.cy49t2_alaro_target.suite_control]
+  mirror_host_case = true
 
 [cases.cy49t2_arome]
 
 [cases.cy49t2_arome_dp]
   base = "cy49t2_arome"
 
-[cases.cy49t2_arome_dp.modifs.general]
-  case = "@CASE_PREFIX@@CYCLE@_@CSC@_@EVENT_TYPE@_@DOMAIN@_@YMD_START@_dp"
-
 [cases.cy49t2_arome_dp.modifs.submission]
   precision = "R64"
+
+[cases.cy49t2_arome_dp.modifs.system]
+  case_suffix = "_dp"
 
 [cases.cy49t2_arome_eps]
   base = "cy49t2_arome"
@@ -94,12 +101,12 @@
 [cases.cy49t2_arome_eps.modifs.eps.general]
   members = "0:3"
 
-[cases.cy49t2_arome_eps.modifs.general]
-  case = "@CASE_PREFIX@@CYCLE@_@CSC@_@EVENT_TYPE@_@DOMAIN@_@YMD_START@_eps"
-
 [cases.cy49t2_arome_eps.modifs.general.times]
   end = "-P1D"
   start = "-P1D"
+
+[cases.cy49t2_arome_eps.modifs.system]
+  case_suffix = "_eps"
 
 [cases.cy49t2_arome_flooding]
   base = "cy49t2_arome"
@@ -109,6 +116,9 @@
   end = "-P1D"
   start = "-P1D"
 
+[cases.cy49t2_arome_flooding.modifs.system]
+  case_suffix = "_flooding"
+
 [cases.cy49t2_arome_large_domain_operational]
   base = "arome"
   extra = ["deode/data/config_files/modifications/operational_settings.toml"]
@@ -117,7 +127,6 @@
   ecfs = "ec:/@USER@/DE_NWP/deode/@COMPILER@/"
 
 [cases.cy49t2_arome_large_domain_operational.modifs.general]
-  case = "@CASE_PREFIX@oper_@CSC@_@XDX@m_@DOMAIN@_@YMD_START@"
   event_type = "nwp"
 
 [cases.cy49t2_arome_large_domain_operational.modifs.general.times]
@@ -125,10 +134,14 @@
   start = "-P1D"
 
 [cases.cy49t2_arome_large_domain_operational.modifs.system]
+  case_suffix = "_oper"
   scratch_oper = "@SCRATCH@/DE_NWP/deode/@COMPILER@"
 
 [cases.cy49t2_arome_target]
   host = "cy49t2_arome_dp"
+
+[cases.cy49t2_arome_target.suite_control]
+  mirror_host_case = true
 
 [cases.cy49t2_arome_use_offline]
   base = "cy49t2_arome"
@@ -147,14 +160,17 @@
 [cases.cy49t2_harmonie_arome_airquality.modifs.archiving.FDB.fdb.surfex_grib2]
   active = false
 
+[cases.cy49t2_harmonie_arome_airquality.modifs.system]
+  case_suffix = "_aq"
+
 [cases.cy49t2_harmonie_arome_dp]
   base = "cy49t2_harmonie_arome"
 
-[cases.cy49t2_harmonie_arome_dp.modifs.general]
-  case = "@CASE_PREFIX@@CYCLE@_@CSC@_@EVENT_TYPE@_@DOMAIN@_@YMD_START@_dp"
-
 [cases.cy49t2_harmonie_arome_dp.modifs.submission]
   precision = "R64"
+
+[cases.cy49t2_harmonie_arome_dp.modifs.system]
+  case_suffix = "_dp"
 
 [cases.cy49t2_harmonie_arome_eps]
   base = "cy49t2_harmonie_arome"
@@ -166,12 +182,12 @@
 [cases.cy49t2_harmonie_arome_eps.modifs.eps.general]
   members = "0:3"
 
-[cases.cy49t2_harmonie_arome_eps.modifs.general]
-  case = "@CASE_PREFIX@@CYCLE@_@CSC@_@EVENT_TYPE@_@DOMAIN@_@YMD_START@_eps"
-
 [cases.cy49t2_harmonie_arome_eps.modifs.general.times]
   end = "-P2D"
   start = "-P2D"
+
+[cases.cy49t2_harmonie_arome_eps.modifs.system]
+  case_suffix = "_eps"
 
 [cases.cy49t2_harmonie_arome_large_domain_use_offline]
   base = "harmonie_arome"
@@ -184,6 +200,9 @@
 [cases.cy49t2_harmonie_arome_target]
   host = "cy49t2_harmonie_arome_dp"
 
+[cases.cy49t2_harmonie_arome_target.suite_control]
+  mirror_host_case = true
+
 [cases.cy49t2_harmonie_arome_use_offline]
   base = "cy49t2_harmonie_arome"
   extra = ["deode/data/config_files/modifications/use_surfex_offline_for_prep.toml"]
@@ -192,4 +211,8 @@
   end = "-P1D"
   start = "-P1D"
 
+[cases.cy49t2_harmonie_arome_use_offline.modifs.system]
+  case_suffix = "_use_offline"
+
 [cases.harmonie_arome]
+  base = "harmonie_arome"

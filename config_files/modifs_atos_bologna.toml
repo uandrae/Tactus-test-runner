@@ -1,6 +1,6 @@
 # Global modifications
 [modifs.archiving.FDB.fdb.fpgrib_files]
-  active = true
+  active = false
 
 [modifs.cleaning.PostMortem.ecf_files]
   active = false
@@ -11,6 +11,9 @@
 
 [modifs.fdb.grib_set]
   expver = "ulfs"
+
+[modifs.general]
+  case = "@CASE_PREFIX@@CYCLE@_@CSC@_@EVENT_TYPE@_@DOMAIN@_@YMD_START@@CASE_SUFFIX@"
 
 [modifs.general.times]
   # counter for starting days, this is to test different days
@@ -43,5 +46,6 @@
 
 [modifs.system]
   # Picks up the case name and domain from the host run
+  case_suffix = ""
   host_case = "@HOST_CASE@"
   host_domain = "@HOST_DOMAIN@"
