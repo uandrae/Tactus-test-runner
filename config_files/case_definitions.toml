@@ -21,7 +21,7 @@
 [cases.cy46h1_harmonie_arome_target]
   host = "cy46h1_harmonie_arome"
 
-[cases.cy46h1_harmonie_arome_target.suite_control]
+[cases.cy46h1_harmonie_arome_target.modifs.suite_control]
   mirror_host_case = true
 
 [cases.cy48t3_alaro]
@@ -33,7 +33,7 @@
 # [cases.cy48t3_arome_target]
 #   host = "cy48t3_arome"
 #
-# [cases.cy48t3_arome_target.suite_control]
+# [cases.cy48t3_arome_target.modifs.suite_control]
 #   mirror_host_case = true
 #
 
@@ -77,7 +77,7 @@
 [cases.cy49t2_alaro_target]
   host = "cy49t2_alaro"
 
-[cases.cy49t2_alaro_target.suite_control]
+[cases.cy49t2_alaro_target.modifs.suite_control]
   mirror_host_case = true
 
 [cases.cy49t2_arome]
@@ -140,7 +140,7 @@
 [cases.cy49t2_arome_target]
   host = "cy49t2_arome_dp"
 
-[cases.cy49t2_arome_target.suite_control]
+[cases.cy49t2_arome_target.modifs.suite_control]
   mirror_host_case = true
 
 [cases.cy49t2_arome_use_offline]
@@ -159,9 +159,6 @@
 
 [cases.cy49t2_harmonie_arome_airquality.modifs.archiving.FDB.fdb.surfex_grib2]
   active = false
-
-[cases.cy49t2_harmonie_arome_airquality.modifs.system]
-  case_suffix = "_aq"
 
 [cases.cy49t2_harmonie_arome_dp]
   base = "cy49t2_harmonie_arome"
@@ -200,7 +197,7 @@
 [cases.cy49t2_harmonie_arome_target]
   host = "cy49t2_harmonie_arome_dp"
 
-[cases.cy49t2_harmonie_arome_target.suite_control]
+[cases.cy49t2_harmonie_arome_target.modifs.suite_control]
   mirror_host_case = true
 
 [cases.cy49t2_harmonie_arome_use_offline]
