@@ -5,9 +5,12 @@ The Tactus-test-runner runs a number of configurations as defined in the used co
 We currently have the following config files under the directory config_files
 
  - atos_bologna.toml : Complete set of tests for atos_bologna
- - lumi.toml : Complete set of tests for lumi
- - ial_pr_atos_bologna.toml : Test ia IAL pr on the toy domain
- - ial_pr_atos_large_bologna.toml : Test ia IAL pr on the standard domain
+ - lumi[\_large].toml : Complete set of tests for lumi for small or large domains
+ - ial_pr\_[large]\_atos_bologna.toml : Test ia IAL pr on the toy/large domain
+ - case_definitions.toml : Definition of all test cases 
+ - macors.toml : Some macro definitions
+ - modifs\_[atos_bologna|lumi].toml : Platform dependent config modifications
+ - atos_bologna_ial_pr_example.toml : Example for running with a IAL PR
 
 ## Prepare
 
