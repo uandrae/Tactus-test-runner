@@ -1,19 +1,18 @@
 [general]
-  dry = false
 
 [ial]
   active = true
-  bindir = "/scratch/@USER@/ial_binaries/ial@CPTAG@-@IAL_HASH@/bin"
+  bindir = "/scratch/@USER@/ial_binaries/@IAL_HASH@/@COMPILER@/@PRECISION@/bin"
   build_tar_path = "/scratch/deployde330"
   ial_hash = "2951f1a1dc2df82471e857a3331df8bb35050745"
 
 [ial.tests.gnu]
-  dp = ["alaro", "arome", "harmonie_arome"]
-  sp = ["arome", "harmonie_arome"]
+  R64 = ["alaro", "arome", "harmonie_arome"]
+  R32 = ["arome", "harmonie_arome"]
 
 [ial.tests.intel]
-  dp = ["alaro", "arome", "harmonie_arome"]
-  sp = ["arome", "harmonie_arome"]
+  R64 = ["alaro", "arome", "harmonie_arome"]
+  R32 = ["arome", "harmonie_arome"]
 
 [macros.case]
   gen_macros = [{ial_hash = "ial.ial_hash"}]

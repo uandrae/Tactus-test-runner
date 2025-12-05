@@ -122,7 +122,7 @@ Here we define global modifications to the default config files. Works the same 
 This section is for IAL PR testing. Here we define
 
 - active: Switch on or off
-- ial_hash: Full hash of the tarball containing the compiled code produced by the github actions
+- ial_hash: Full hash of the tarball containing the compiled code produced by the github actions. Find if from the github actions, https://github.com/destination-earth-digital-twins/IAL/actions
 - build_tar_path: Path to the tarball
 - bindir: The target bindir to use
 
@@ -132,13 +132,58 @@ In `ial.test.compiler_name` we define which tests to do in single and double pre
 [ial]
   active = true
   ial_hash = "be0fe3c3429fcbdf4515f5b58a5cf30689cf66f8"
+  bindir = "/scratch/@USER@/ial_binaries/@IAL_HASH@/@COMPILER@/@PRECISION@/bin"
   build_tar_path = "/scratch/deployde330"
-  bindir = "/scratch/@USER@/ial_binaries/ial@CPTAG@-@IAL_HASH@/bin"
 
 [ial.tests.intel]
-  sp = ["cy49t2_arome","cy49t2_harmonie_arome"]
-  dp = ["cy49t2_alaro","cy49t2_arome","cy49t2_harmonie_arome"]
+  R32 = ["cy49t2_arome","cy49t2_harmonie_arome"]
+  R64 = ["cy49t2_alaro","cy49t2_arome","cy49t2_harmonie_arome"]
 [ial.tests.gnu]
-  sp = ["cy49t2_arome","cy49t2_harmonie_arome"]
-  dp = ["cy49t2_alaro","cy49t2_arome","cy49t2_harmonie_arome"]
+  R32 = ["cy49t2_arome","cy49t2_harmonie_arome"]
+  R64 = ["cy49t2_alaro","cy49t2_arome","cy49t2_harmonie_arome"]
 ```
+
+We can check what configurations to expect by
+```
+$ poetry run ttr -c config_files/ial_pr_atos_bologna.toml -l
+2025-12-05 09:06:45 | INFO     | Using config file: config_files/ial_pr_atos_bologna.toml
+2025-12-05 09:06:45 | INFO     |  tag: 2951f1a_
+2025-12-05 09:06:45 | INFO     | Available cases:
+2025-12-05 09:06:45 | INFO     |     cy49t2_alaro_gnu_R64
+2025-12-05 09:06:45 | INFO     |     cy49t2_arome_gnu_R64
+2025-12-05 09:06:45 | INFO     |     cy49t2_harmonie_arome_gnu_R64
+2025-12-05 09:06:45 | INFO     |     cy49t2_arome_gnu_R32
+2025-12-05 09:06:45 | INFO     |     cy49t2_harmonie_arome_gnu_R32
+2025-12-05 09:06:45 | INFO     |     cy49t2_alaro_intel_R64
+2025-12-05 09:06:45 | INFO     |     cy49t2_arome_intel_R64
+2025-12-05 09:06:45 | INFO     |     cy49t2_harmonie_arome_intel_R64
+2025-12-05 09:06:45 | INFO     |     cy49t2_arome_intel_R32
+2025-12-05 09:06:45 | INFO     |     cy49t2_harmonie_arome_intel_R32
+2025-12-05 09:06:45 | INFO     | Selected cases:
+2025-12-05 09:06:45 | INFO     |     cy49t2_alaro_gnu_R64
+2025-12-05 09:06:45 | INFO     |     cy49t2_arome_gnu_R64
+2025-12-05 09:06:45 | INFO     |     cy49t2_harmonie_arome_gnu_R64
+2025-12-05 09:06:45 | INFO     |     cy49t2_arome_gnu_R32
+2025-12-05 09:06:45 | INFO     |     cy49t2_harmonie_arome_gnu_R32
+2025-12-05 09:06:45 | INFO     |     cy49t2_alaro_intel_R64
+2025-12-05 09:06:45 | INFO     |     cy49t2_arome_intel_R64
+2025-12-05 09:06:45 | INFO     |     cy49t2_harmonie_arome_intel_R64
+2025-12-05 09:06:45 | INFO     |     cy49t2_arome_intel_R32
+2025-12-05 09:06:45 | INFO     |     cy49t2_harmonie_arome_intel_R32
+```
+First we need to fetch the binaries
+```
+$ poetry run ttr -c config_files/ial_pr_atos_bologna.toml -p
+2025-12-05 09:09:59 | INFO     | Using config file: config_files/ial_pr_atos_bologna.toml
+2025-12-05 09:09:59 | INFO     |  tag: 2951f1a\_
+2025-12-05 09:09:59 | INFO     | Untar /scratch/deployde330/ial-sp-2951f1a1dc2df82471e857a3331df8bb35050745.tar into /scratch/snh/ial_binaries/2951f1a1dc2df82471e857a3331df8bb35050745/intel/R32
+2025-12-05 09:09:59 | INFO     | Untar /scratch/deployde330/ial-gnu-2951f1a1dc2df82471e857a3331df8bb35050745.tar into /scratch/snh/ial_binaries/2951f1a1dc2df82471e857a3331df8bb35050745/gnu/R64
+2025-12-05 09:09:59 | INFO     | Untar /scratch/deployde330/ial-sp-gnu-2951f1a1dc2df82471e857a3331df8bb35050745.tar into /scratch/snh/ial_binaries/2951f1a1dc2df82471e857a3331df8bb35050745/gnu/R32
+2025-12-05 09:09:59 | INFO     | Untar /scratch/deployde330/ial-2951f1a1dc2df82471e857a3331df8bb35050745.tar into /scratch/snh/ial_binaries/2951f1a1dc2df82471e857a3331df8bb35050745/intel/R64
+2025-12-05 09:09:59 | INFO     | All binaries copied. Rerun without '-p' to launch tests
+```
+Finally we can launch the runs by
+```
+$ poetry run ttr -c config_files/ial_pr_atos_bologna.toml 
+```
+Note the corresponding config file `config_files/ial_pr_large_atos_bologna.toml` for large domain tests.
