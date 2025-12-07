@@ -39,6 +39,8 @@ class TestCases:
 
         self.verbose = args.verbose
         self.cases = definitions.get("cases", {})
+        self.cmds = {}
+        self.mode = definitions["general"].get("mode", "suite")
         self.extra = definitions["general"].get("extra", [])
         if "tag" not in definitions["general"]:
             definitions["general"]["tag"] = self.get_tactus_version()
@@ -200,12 +202,11 @@ class TestCases:
 
         logger.info("Create {}config files in {}", label, self.test_dir)
 
-        self.cmds = {}
         assigned = {}
         for i, (case, item) in enumerate(self.cases.items()):
             assigned[case] = i + 1
 
-            if case not in cases:
+            if case not in cases or "config_name" in self.cases[case]:
                 continue
 
             counter = assigned[item["host"]] if "host" in item else assigned[case]
@@ -262,8 +263,10 @@ class TestCases:
         """
         if cmds is None:
             cmds = []
-        cases = {}
         for case, cmd in self.cmds.items():
+            if "config_name" in self.cases[case]:
+                continue
+
             logger.info("Configure case {} with\n", case)
             for c in cmds:
                 cmd.append(c)
@@ -274,25 +277,13 @@ class TestCases:
             tactus_main(cmd)
 
             # Update the case settings
-            if config_hosts:
-                directory = Path(self.test_dir)
-                config_file = max(
-                    directory.glob("*.toml"), key=lambda f: f.stat().st_mtime
-                )
-                with open(config_file, "rb") as f:
-                    definitions = tomli.load(f)
-                cases[case] = {
-                    "config_name": os.path.basename(config_file.stem),
-                    "domain_name": definitions["domain"]["name"],
-                }
-                logger.debug(
-                    "Update config_name:{} and domain_name:{} from {}",
-                    cases[case]["config_name"],
-                    cases[case]["domain_name"],
-                    config_file,
-                )
+            directory = Path(self.test_dir)
+            config_file = max(directory.glob("*.toml"), key=lambda f: f.stat().st_mtime)
+            with open(config_file, "rb") as f:
+                definitions = tomli.load(f)
 
-        return cases
+            self.cases[case]["config_name"] = os.path.basename(config_file.stem)
+            self.cases[case]["domain_name"] = definitions["domain"]["name"]
 
     def get_binaries(self):
         """Get the correct binaries."""
@@ -327,23 +318,45 @@ class TestCases:
         os.chdir(basedir)
         logger.info("All binaries copied. Rerun without '-p' to launch tests")
 
-    def update_hostnames(self, hostnames):
-        """Update host and domain name.
+    def start(self):
+        """Start the run."""
+        for case, cmd in self.cmds.items():
+            config_name = self.cases[case]["config_name"]
+            if self.mode == "task":
+                cmds = [
+                    [
+                        "run",
+                        "--config-file",
+                        f"{self.test_dir}/{config_name}.toml",
+                        "--task",
+                        task,
+                        "--job",
+                        f"{self.test_dir}/{task}.{config_name}.job",
+                        "--output",
+                        f"{self.test_dir}/{task}.{config_name}.log",
+                    ]
+                    for task in self.cases[case]["tasks"]
+                ]
+            else:
+                cmds = [
+                    [
+                        "start",
+                        "suite",
+                        "--config-file",
+                        f"{self.test_dir}/{config_name}.toml",
+                        "-f",
+                        f"{self.test_dir}/{config_name}.def",
+                        "-k",
+                    ]
+                ]
 
-        Arguments:
-            hostnames (dict): Dict of host cases with properties
+            for cmd in cmds:
+                cmd_txt = " ".join(cmd)
+                logger.info("Use cmd:\n\n{}\n\n", cmd_txt)
 
-        """
-        for case, item in self.cases.items():
-            if "host" in item and item["host"] in hostnames:
-                logger.info(
-                    "Add {} and {} to {}",
-                    hostnames[item["host"]]["config_name"],
-                    hostnames[item["host"]]["domain_name"],
-                    case,
-                )
-                self.cases[case]["hostname"] = hostnames[item["host"]]["config_name"]
-                self.cases[case]["hostdomain"] = hostnames[item["host"]]["domain_name"]
+                # Start suite or task with tactus
+                if not self.dry:
+                    tactus_main(cmd)
 
 
 def execute(t, args):
@@ -357,16 +370,15 @@ def execute(t, args):
     # Check dependencies and create possible host cases
     host_cases = t.prepare()
     t.create(host_cases)
-    hostnames = t.configure(config_hosts=True)
-    t.update_hostnames(hostnames)
+    t.configure(config_hosts=True)
 
     # Create the modification files
     t.create()
 
     # Run
     if args.run:
-        cmd = [] if t.dry else ["--start-suite"]
-        t.configure(cmds=cmd)
+        t.configure()
+        t.start()
 
 
 def main(argv=None):
