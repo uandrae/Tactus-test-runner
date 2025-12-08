@@ -1,9 +1,7 @@
 [general]
   mode = "task"
+  selection = ["cy49t2_alaro"]
   tag = "task_test_"
-  selection = [
-    "cy49t2_alaro",
-  ]
 
 [include]
   cases = "task_definitions.toml"

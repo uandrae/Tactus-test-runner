@@ -42,9 +42,7 @@ class TestCases:
         self.cmds = {}
         self.mode = definitions["general"].get("mode", "suite")
         self.extra = definitions["general"].get("extra", [])
-        if "tag" not in definitions["general"]:
-            definitions["general"]["tag"] = self.get_tactus_version()
-        self.tag = definitions["general"].get("tag")
+        self.get_tag(definitions)
         self.dry = args.dry if args.dry else definitions["general"].get("dry", False)
         self.modifs = definitions["modifs"]
         self.test_dir = definitions.get("test_dir", f"{self.tag}configs")
@@ -58,6 +56,20 @@ class TestCases:
 
         logger.info("Using config file: {}", args.config_file)
         logger.info(" tag: {}", self.tag)
+
+    def get_tag(self, definitions):
+        """Get and validate tag.
+
+        Arguments:
+            definitions (dict) : Configuration
+
+        """
+        if "tag" not in definitions["general"]:
+            definitions["general"]["tag"] = self.get_tactus_version()
+        self.tag = definitions["general"].get("tag")
+
+        if self.tag[0].isdigit():
+            raise ValueError(f"The tag cannot start with an integer. tag={self.tag}")
 
     def resolve_selection(self, definitions):
         """Resolve the selections.
@@ -110,12 +122,11 @@ class TestCases:
         with open("pyproject.toml", "rb") as f:
             pyproject = tomli.load(f)
             deode_git = pyproject["tool"]["poetry"]["dependencies"]["deode"]
-        if "tag" in deode_git:
-            tag = deode_git["tag"]
-        elif "branch" in deode_git:
-            tag = deode_git["branch"]
-        else:
-            tag = "Unknown"
+
+        try:
+          tag = [deode_git[x] for x in ["tag", "branch", "rev"] if x in deode_git][0]
+        except IndexError:
+          tag = "Unknown"
 
         tag = tag.replace("/", "_").replace(".", "_") + "_"
         return tag
@@ -347,7 +358,7 @@ class TestCases:
 
     def start(self):
         """Start the run."""
-        for case in self.cmds():
+        for case in self.cmds:
             config_name = self.cases[case]["config_name"]
             if self.mode == "task":
                 cmds = [
