@@ -1,6 +1,6 @@
 # Global modifications
 [modifs.archiving.FDB.fdb.fpgrib_files]
-  active = true
+  active = false
 
 [modifs.boundaries]
   max_interpolation_tasks = -1
