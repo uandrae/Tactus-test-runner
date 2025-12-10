@@ -63,6 +63,9 @@ class TestCases:
         Arguments:
             definitions (dict) : Configuration
 
+        Raises:
+            ValueError: If tag has leading digits
+
         """
         if "tag" not in definitions["general"]:
             definitions["general"]["tag"] = self.get_tactus_version()
@@ -86,9 +89,12 @@ class TestCases:
         with contextlib.suppress(KeyError):
             subtags = definitions["general"]["subtags"]
             subtag_selection = []
-            for key in subtags:
-                tag, v = key.popitem()
+            for tag, value in subtags.items():
+                if not value.get("active", False):
+                    continue
                 for sel in selection:
+                    if any(x in sel for x in value.get("exclude", "")):
+                        continue
                     subtag = f"{tag}{sel}"
                     x = copy.deepcopy(self.cases[sel])
                     if "base" not in x:
@@ -97,11 +103,13 @@ class TestCases:
                         x["host"] = f"{tag}{x['host']}"
                     x["subtag"] = tag
                     x["extra"] = [] if "extra" not in x else list(x["extra"])
-                    for k in v:
+                    for k in value.get("extra", []):
                         x["extra"].append(k)
                     subtag_selection.append(subtag)
+                    logger.info(x)
                     self.cases[subtag] = x
-            selection = subtag_selection
+            if len(subtag_selection) > 0:
+                selection = subtag_selection
 
         return selection
 
@@ -124,9 +132,9 @@ class TestCases:
             deode_git = pyproject["tool"]["poetry"]["dependencies"]["deode"]
 
         try:
-          tag = [deode_git[x] for x in ["tag", "branch", "rev"] if x in deode_git][0]
+            tag = next(deode_git[x] for x in ["tag", "branch", "rev"] if x in deode_git)
         except IndexError:
-          tag = "Unknown"
+            tag = "Unknown"
 
         tag = tag.replace("/", "_").replace(".", "_") + "_"
         return tag

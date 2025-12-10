@@ -32,6 +32,8 @@ def minimal_raw_config():
         [cases.alaro]
         [domain]
           name = "foo"
+        [cases.alaro_target]
+          host = "alaro"
         """
     )
 
@@ -96,13 +98,26 @@ def test_resolve_selection_basic(args):
 # -------------------------------------------------------------
 # resolve_selection with subtags
 # -------------------------------------------------------------
+def test_get_tag_digit(args, monkeypatch):
+    monkeypatch.setattr(TestCases, "get_tactus_version", lambda self: "0_")  # noqa ARG001
+    with pytest.raises(ValueError, match=r"The tag cannot start with an integer. tag=0_"):
+        TestCases(args)
+
+
+# -------------------------------------------------------------
+# resolve_selection with subtags
+# -------------------------------------------------------------
 def test_resolve_selection_with_subtags(args):
     tc = TestCases(args)
     tc.cases = {"X": {"host": "Xhost"}, "Y": {}}
     definitions = {
         "general": {
             "selection": ["X"],
-            "subtags": [{"a": ["foo", "bar"]}],
+            "subtags": {
+                "a": {"active": True, "extra": ["foo", "bar"]},
+                "b": {"active": True, "exclude": ["Y"]},
+                "c": {"active": False},
+            },
         },
         "cases": tc.cases,
     }
@@ -110,10 +125,13 @@ def test_resolve_selection_with_subtags(args):
     sel = tc.resolve_selection(definitions)
 
     assert "aX" in sel
+    assert "bY" not in sel
+    assert "c" not in sel
     assert "aX" in tc.cases
     assert tc.cases["aX"]["subtag"] == "a"
     assert "foo" in tc.cases["aX"]["extra"]
     assert "bar" in tc.cases["aX"]["extra"]
+    assert "c" not in tc.cases
 
 
 # -------------------------------------------------------------
@@ -179,6 +197,7 @@ def test_expand_tests(args):
 # -------------------------------------------------------------
 def test_list(args):
     args.list = True
+    args.verbose = True
     tc = TestCases(args)
 
     logger_id = logger.add(sink)
@@ -191,7 +210,7 @@ def test_list(args):
 # get_binaries
 # -------------------------------------------------------------
 def test_get_binaries(args, tmp_test_data_dir):
-    Path(f"{tmp_test_data_dir}/foo.tar").touch()
+    Path(f"{tmp_test_data_dir}/foo-sp--gnu-.tar").touch()
     args.dry = True
     tc = TestCases(args)
     tc.ial = {
@@ -229,8 +248,21 @@ def test_create_and_configure(monkeypatch, args, tmp_test_data_dir):
     basedir = os.getcwd()
     os.chdir(tmp_test_data_dir)
     tc.create()
-    tc.configure(config_hosts=True)
+    tc.configure(config_hosts=True, cmds=["foo"])
     os.chdir(basedir)
+
+
+# -------------------------------------------------------------
+# start
+# -------------------------------------------------------------
+def test_start(args):
+    tc = TestCases(args)
+    tc.dry = True
+    tc.mode = "task"
+    tc.cmds = ["foo"]
+    tc.cases = {"foo": {"config_name": "bar", "tasks": ["foo"]}}
+    tc.test_dir = "foo"
+    tc.start()
 
 
 # -------------------------------------------------------------

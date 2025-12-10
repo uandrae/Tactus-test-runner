@@ -1,11 +1,15 @@
 [general]
   # selection = [ ]
   # tag = "v0_23_0_"
-  # Comment subtags for default compiler runs only
-  subtags = [
-    {intel_ = []},
-    {gnu_ = ["deode/data/config_files/modifications/submission/atos_bologna_gnu.toml"]},
-  ]
+
+[general.subtags.gnu_]
+  active = true
+  exclude = ["cy48t2", "cy46h"]
+  extra = ["deode/data/config_files/modifications/submission/atos_bologna_gnu.toml"]
+
+[general.subtags.intel_]
+  active = true
+
 
 [include]
   cases = "case_definitions.toml"
