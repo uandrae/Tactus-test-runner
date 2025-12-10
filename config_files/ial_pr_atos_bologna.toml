@@ -1,0 +1,52 @@
+[general]
+
+[ial]
+  active = true
+  bindir = "/scratch/@USER@/ial_binaries/@IAL_HASH@/@COMPILER@/@PRECISION@/bin"
+  build_tar_path = "/scratch/deployde330"
+  ial_hash = "2951f1a1dc2df82471e857a3331df8bb35050745"
+
+[ial.tests.gnu]
+  R32 = ["cy49t2_arome", "cy49t2_harmonie_arome"]
+  R64 = ["cy49t2_alaro", "cy49t2_arome", "cy49t2_harmonie_arome"]
+
+[ial.tests.intel]
+  R32 = ["cy49t2_arome", "cy49t2_harmonie_arome"]
+  R64 = ["cy49t2_alaro", "cy49t2_arome", "cy49t2_harmonie_arome"]
+
+[macros.case]
+  gen_macros = [{ial_hash = "ial.ial_hash"}]
+  group_macros = []
+  os_macros = ["USER"]
+
+[macros.select.default]
+  gen_macros = []
+  group_macros = ["modif_macros"]
+  os_macros = ["USER"]
+
+[modifs.general]
+  case = "@CASE_PREFIX@@DOMAIN@_@YMD_START@"
+
+[modifs.general.times]
+  end = "2025-09-02T00:00:00Z"
+  start = "2025-09-02T00:00:00Z"
+
+[modifs.macros.select.release_test]
+  os_macros = ["PERM"]
+
+[modifs.scheduler.ecfvars]
+  ecf_files = "@PERM@/deode_ecflow/ecf_files"
+  ecf_files_remotely = "@PERM@/deode_ecflow/ecf_files"
+  ecf_home = "@PERM@/deode_ecflow/jobout"
+  ecf_jobout = "@PERM@/deode_ecflow/jobout"
+  ecf_out = "@PERM@/deode_ecflow/jobout"
+
+[modifs.submission]
+  max_ecf_tasks = 10
+
+[modifs.suite_control]
+  create_static_data = true
+  do_archiving = false
+  do_creategrib_static = false
+  do_extractsqlite = false
+  do_mergesqlite = false
