@@ -12,6 +12,7 @@ from deode.__main__ import main as tactus_main
 from deode.config_parser import ConfigPaths, GeneralConstants, ParsedConfig
 from deode.fullpos import flatten_list
 from deode.general_utils import merge_dicts
+from deode.host_actions import DeodeHost
 from deode.logs import logger
 
 
@@ -28,6 +29,8 @@ class TestCases:
         ConfigPaths.CONFIG_DATA_SEARCHPATHS.insert(
             0, os.path.join(os.getcwd(), "config_files")
         )
+
+        self.deode_host = DeodeHost().detect_deode_host()
 
         definitions = {"general": {}, "modifs": {}}
         if args.config_file is not None:
@@ -315,16 +318,22 @@ class TestCases:
 
     def get_binaries(self):
         """Get the correct binaries."""
+        host_settings = {
+            "lumi": {"compiler": "gnu", "precision": "R64"},
+            "atos_bologna": {"compiler": "intel", "precision": "R64"},
+        }
+
         basedir = os.getcwd()
         ial_hash = self.ial["ial_hash"]
         build_tar_path = self.ial["build_tar_path"]
         _bindir = self.ial["bindir"].replace("@USER@", os.environ["USER"])
 
         files = glob.glob(f"{build_tar_path}/*{ial_hash}*.tar")
+        logger.info(self.deode_host)
         for f in files:
             ff = os.path.basename(f).replace(".tar", "")
-            compiler = "intel"
-            precision = "R64"
+            compiler = host_settings[self.deode_host]["compiler"]
+            precision = host_settings[self.deode_host]["precision"]
             if "-sp-" in ff:
                 precision = "R32"
             if "-gnu-" in ff:
