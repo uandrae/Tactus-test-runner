@@ -152,20 +152,11 @@ class TestCases:
         ial_hash = defs["ial"].get("ial_hash", "latest")
         prefix = f"{ial_hash[0:7]}_"
         self.tag = prefix
-        self.bindir = defs["ial"]["bindir"].replace("@USER@", os.environ["USER"])
 
         self.selection = []
         dp_precision = "R64"
         for compiler, settings in defs["ial"]["tests"].items():
             for precision, confs in settings.items():
-                sp_precision = "R32" if precision == "R32" else dp_precision
-                dp_path = f"{self.bindir}".replace("@COMPILER@", compiler).replace(
-                    "@PRECISION@", dp_precision
-                )
-                sp_path = f"{self.bindir}".replace("@COMPILER@", compiler).replace(
-                    "@PRECISION@", sp_precision
-                )
-
                 for conf in confs:
                     tag = f"{conf}_{compiler}_{precision}"
                     self.selection.append(tag)
@@ -173,12 +164,8 @@ class TestCases:
                         "base": conf,
                         "modifs": {
                             "submission": {
-                                "bindir": dp_path,
-                                "task_exceptions": {
-                                    "Forecast": {
-                                        "bindir": sp_path,
-                                    }
-                                },
+                                "precision": precision,
+                                "compiler": compiler,
                             },
                         },
                     }

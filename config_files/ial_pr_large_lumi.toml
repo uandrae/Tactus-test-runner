@@ -2,16 +2,19 @@
 
 [ial]
   active = true
-  bindir = "/scratch/project_465000527/@USER@/ial_binaries/@IAL_HASH@/@COMPILER@/@PRECISION@/bin"
   build_tar_path = "/scratch/project_465000527/github-actions"
   ial_hash = "a7eb2d4356028de422168ca126721ec2eef930a8"
+  user_binary_path = "/scratch/project_465000527/@USER@/ial_binaries"
 
 [ial.tests.gnu]
   R32 = ["arome", "harmonie_arome"]
   R64 = ["alaro", "arome", "harmonie_arome"]
 
 [macros.case]
-  gen_macros = [{ial_hash = "ial.ial_hash"}]
+  gen_macros = [
+     {ial_hash = "ial.ial_hash"},
+     {user_binary_path = "ial.user_binary_path"}
+  ]
   group_macros = []
   os_macros = ["USER"]
 
@@ -31,7 +34,12 @@
   case_prefix = "@USER@_@TAG@@SUBTAG@"
 
 [modifs.submission]
+  user_binary_path = "/scratch/project_465000527/@USER@/ial_binaries"
   max_ecf_tasks = 10
+  bindir = "@USER_BINARY_PATH@/@IAL_HASH@/@COMPILER@/R64/bin"
+
+[modifs.submission.task_exceptions.Forecast]
+  bindir = "@USER_BINARY_PATH@/@IAL_HASH@/@COMPILER@/@PRECISION@/bin"
 
 [modifs.submission.task_exceptions.PgdFilterTownFrac.ENV]
   ECF_TRIES = 15
