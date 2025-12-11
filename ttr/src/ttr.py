@@ -328,7 +328,6 @@ class TestCases:
         _bindir = self.ial["bindir"].replace("@USER@", os.environ["USER"])
 
         files = glob.glob(f"{build_tar_path}/*{ial_hash}*.tar")
-        logger.info(self.deode_host)
         for f in files:
             ff = os.path.basename(f).replace(".tar", "")
             compiler = host_settings[self.deode_host]["compiler"]
