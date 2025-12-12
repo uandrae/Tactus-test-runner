@@ -36,6 +36,13 @@
 
 [cases.cy49t2_alaro]
 
+[cases.cy49t2_alaro_ddh]
+  base = "cy49t2_alaro"
+  extra = ["deode/data/config_files/modifications/ddh.toml"]
+
+[cases.cy49t2_alaro_ddh.modifs.system]
+  case_suffix = "_ddh"
+
 [cases.cy49t2_alaro_eps]
   base = "cy49t2_alaro"
   extra = [
@@ -81,6 +88,13 @@
   mirror_host_case = true
 
 [cases.cy49t2_arome]
+
+[cases.cy49t2_arome_ddh]
+  base = "cy49t2_arome"
+  extra = ["deode/data/config_files/modifications/ddh.toml"]
+
+[cases.cy49t2_arome_ddh.modifs.system]
+  case_suffix = "_ddh"
 
 [cases.cy49t2_arome_eps]
   base = "cy49t2_arome"
@@ -155,6 +169,13 @@
   case_suffix = "_use_offline"
 
 [cases.cy49t2_harmonie_arome]
+
+[cases.cy49t2_harmonie_arome_ddh]
+  base = "cy49t2_harmonie_arome"
+  extra = ["deode/data/config_files/modifications/ddh.toml"]
+
+[cases.cy49t2_harmonie_arome_ddh.modifs.system]
+  case_suffix = "_ddh"
 
 [cases.cy49t2_harmonie_arome_airquality]
   base = "cy49t2_harmonie_arome"
