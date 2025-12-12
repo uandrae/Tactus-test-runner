@@ -14,11 +14,11 @@ We currently have the following config files under the directory config_files
 
 ## Prepare
 
-Define the correct tactus version to use in pyproject.toml. This may be a tag or a branch.
+Define the correct tactus version to use in pyproject.toml. This may be a tag, a branch or a local copy.
 
 ```
 [tool.poetry.dependencies]
-  deode = {git = "git@github.com:uandrae/Deode-Prototype.git", branch = "release/v0.23.0"}
+  deode = {git = "git@github.com:uandrae/Deode-Prototype.git", branch = "develop"}
   #deode = {git = "git@github.com:destination-earth-digital-twins/Deode-Workflow.git", tag = "v0.22.0"}
 ```
 
@@ -32,7 +32,7 @@ Optionally define the location of your virtual environment in poetry.toml
 
 ## Install
 
-Install the package and all tactus dependencies with poetry. Potentially locate the 
+Install the package and all tactus dependencies with poetry.
 
 ```
 poetry install
@@ -61,11 +61,7 @@ This will create a directory according to the tag and create all config files in
 ttr -c config_files/CURRENT_HOST.toml -d 
 ```
 
-## Noteable 
-
-There are a few `target` configurations that will require the host run to complete before it works. These runs will fail and can be requed once the host run has completed.
-
-## About the config file
+## About the config files
 
 The config file has a for main sections: general, case, modifs and ial. Here we explain the usage of each
 
@@ -75,17 +71,20 @@ The general section defines the selection of cases and possible compiler extensi
 
 ```
 [general]
+  tag = "my\_label\_"
+  extra = []
   selection = [
     "cy49t2_alaro",
     "cy49t2_alaro_target",
   ]
-  # tag = "v0_23_0_"
-  # Uncomment this for intel and gnu runs
-  subtags = [
-    {intel_ = []},
-    {gnu_ = ["deode/data/config_files/modifications/submission/atos_bologna_gnu.toml"]},
-  ]
-  extra = []
+```
+Leaving out the selection section will run all defined cases. Check with `-l` how it works.
+To test different compilers we can add the subtag section. Here we defin the section as active, configurations patterns to exclude and possible extra config files.
+```
+[general.subtags.gnu\_]
+  active = true
+  exclude = ["cy48t2", "cy46h"]
+  extra = ["deode/data/config_files/modifications/submission/atos_bologna_gnu.toml"]
 
 ```
 
@@ -127,7 +126,7 @@ This section is for IAL PR testing. Here we define
 - active: Switch on or off
 - ial_hash: Full hash of the tarball containing the compiled code produced by the github actions. Find if from the github actions, https://github.com/destination-earth-digital-twins/IAL/actions
 - build_tar_path: Path to the tarball
-- bindir: The target bindir to use
+- user_binary_path: The target directory for the binaries
 
 In `ial.test.compiler_name` we define which tests to do in single and double precision respectively for each available compiler. We have
 
@@ -135,7 +134,6 @@ In `ial.test.compiler_name` we define which tests to do in single and double pre
 [ial]
   active = true
   ial_hash = "be0fe3c3429fcbdf4515f5b58a5cf30689cf66f8"
-  bindir = "/scratch/@USER@/ial_binaries/@IAL_HASH@/@COMPILER@/@PRECISION@/bin"
   build_tar_path = "/scratch/deployde330"
 
 [ial.tests.intel]
@@ -190,3 +188,6 @@ Finally we can launch the runs by
 $ poetry run ttr -c config_files/ial_pr_atos_bologna.toml 
 ```
 Note the corresponding config file `config_files/ial_pr_large_atos_bologna.toml` for large domain tests.
+
+### Use PR binaries for general testing
+We can also define the config so that we pick binaries built and run an arbitray set of configurations. See config_files/atos_bologna_ial_pr_example.toml for details.
