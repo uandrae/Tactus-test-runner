@@ -15,10 +15,7 @@
   R64 = ["alaro", "arome", "harmonie_arome"]
 
 [macros.case]
-  gen_macros = [
-     {ial_hash = "ial.ial_hash"},
-     {user_binary_path = "ial.user_binary_path"}
-  ]
+  gen_macros = [{ial_hash = "ial.ial_hash"}, {user_binary_path = "ial.user_binary_path"}]
   group_macros = []
   os_macros = ["USER"]
 
@@ -46,12 +43,11 @@
   ecf_out = "@PERM@/deode_ecflow/jobout"
 
 [modifs.submission]
-  max_ecf_tasks = 10
   bindir = "@USER_BINARY_PATH@/@IAL_HASH@/@COMPILER@/R64/bin"
+  max_ecf_tasks = 10
 
 [modifs.submission.task_exceptions.Forecast]
   bindir = "@USER_BINARY_PATH@/@IAL_HASH@/@COMPILER@/@PRECISION@/bin"
-
 
 [modifs.suite_control]
   create_static_data = true

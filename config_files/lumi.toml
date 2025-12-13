@@ -12,6 +12,9 @@
     "harmonie_arome",
   ]
 
+[general.compiler.gnu_]
+  active = true
+
 [include]
   cases = "case_definitions.toml"
   macros = "macros.toml"

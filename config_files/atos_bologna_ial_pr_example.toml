@@ -11,10 +11,7 @@
   cases = "case_definitions.toml"
 
 [macros.case]
-  gen_macros = [
-     {ial_hash = "ial.ial_hash"},
-     {user_binary_path = "ial.user_binary_path"}
-  ]
+  gen_macros = [{ial_hash = "ial.ial_hash"}, {user_binary_path = "ial.user_binary_path"}]
   group_macros = []
   os_macros = ["USER"]
 

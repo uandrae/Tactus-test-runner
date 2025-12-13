@@ -1,6 +1,0 @@
-[general]
-  selection = ["alaro"]
-
-[include]
-  cases = "case_definitions.toml"
-  modifs = "modifs_lumi.toml"

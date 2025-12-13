@@ -90,7 +90,7 @@ class TestCases:
 
         # Handle subtags and update selection accordingly
         with contextlib.suppress(KeyError):
-            subtags = definitions["general"]["subtags"]
+            subtags = definitions["general"]["compiler"]
             subtag_selection = []
             for tag, value in subtags.items():
                 if not value.get("active", False):
@@ -136,7 +136,7 @@ class TestCases:
 
         try:
             tag = next(deode_git[x] for x in ["tag", "branch", "rev"] if x in deode_git)
-        except IndexError:
+        except StopIteration:
             tag = "Unknown"
 
         tag = tag.replace("/", "_").replace(".", "_") + "_"
@@ -154,7 +154,6 @@ class TestCases:
         self.tag = prefix
 
         self.selection = []
-        dp_precision = "R64"
         for compiler, settings in defs["ial"]["tests"].items():
             for precision, confs in settings.items():
                 for conf in confs:
@@ -313,9 +312,11 @@ class TestCases:
         ial_hash = self.ial["ial_hash"]
         build_tar_path = self.ial["build_tar_path"]
         try:
-           _bindir = self.modifs["submission"]["task_exception"]["Forecast"]["bindir"]
+            _bindir = self.modifs["submission"]["task_exception"]["Forecast"]["bindir"]
         except KeyError:
-           _bindir = f"{self.ial['user_binary_path']}/{ial_hash}/@COMPILER@/@PRECISION@/bin"
+            _bindir = (
+                f"{self.ial['user_binary_path']}/{ial_hash}/@COMPILER@/@PRECISION@/bin"
+            )
 
         files = glob.glob(f"{build_tar_path}/*{ial_hash}*.tar")
         for f in files:

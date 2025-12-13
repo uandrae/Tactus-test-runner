@@ -1,16 +1,9 @@
-# General config
-# dry means just produce the config files, can be achived by adding "-d" on command line as well
-# selection is selection of cases to run
-# tag is the label added in front of each case
-# subtags allows to loop over additional settings, e.g. for compiler
-#
-
 # Config per case
-# Place local changes under [cases.x.modifs...]
-#  start sets days backwards from today for general.times.start
 #  base gives the config to start from
 #  host defines the forcing run for a target run
 #  extra is extra config files to add
+# Place local tactus config changes under [cases.x.modifs...]
+#
 
 [cases.alaro]
 
@@ -170,19 +163,19 @@
 
 [cases.cy49t2_harmonie_arome]
 
-[cases.cy49t2_harmonie_arome_ddh]
-  base = "cy49t2_harmonie_arome"
-  extra = ["deode/data/config_files/modifications/ddh.toml"]
-
-[cases.cy49t2_harmonie_arome_ddh.modifs.system]
-  case_suffix = "_ddh"
-
 [cases.cy49t2_harmonie_arome_airquality]
   base = "cy49t2_harmonie_arome"
   extra = ["deode/data/config_files/modifications/event_type/airquality.toml"]
 
 [cases.cy49t2_harmonie_arome_airquality.modifs.archiving.FDB.fdb.surfex_grib2]
   active = false
+
+[cases.cy49t2_harmonie_arome_ddh]
+  base = "cy49t2_harmonie_arome"
+  extra = ["deode/data/config_files/modifications/ddh.toml"]
+
+[cases.cy49t2_harmonie_arome_ddh.modifs.system]
+  case_suffix = "_ddh"
 
 [cases.cy49t2_harmonie_arome_eps]
   base = "cy49t2_harmonie_arome"

@@ -5,11 +5,11 @@ The Tactus-test-runner runs a number of configurations as defined in the used co
 We currently have the following config files under the directory config_files
 
  - atos_bologna.toml : Complete set of tests for atos_bologna
- - lumi[\_large].toml : Complete set of tests for lumi for small or large domains
- - ial_pr\_[large]\_atos_bologna.toml : Test ia IAL pr on the toy/large domain
+ - lumi[_large].toml : Complete set of tests for lumi for small or large domains
+ - ial_pr_[large]_atos_bologna.toml : Test ia IAL pr on the toy/large domain
  - case_definitions.toml : Definition of all test cases 
  - macors.toml : Some macro definitions
- - modifs\_[atos_bologna|lumi].toml : Platform dependent config modifications
+ - modifs_[atos_bologna|lumi].toml : Platform dependent config modifications
  - atos_bologna_ial_pr_example.toml : Example for running with a IAL PR
 
 ## Prepare
@@ -71,7 +71,7 @@ The general section defines the selection of cases and possible compiler extensi
 
 ```
 [general]
-  tag = "my\_label\_"
+  tag = "my_label_"
   extra = []
   selection = [
     "cy49t2_alaro",
@@ -79,9 +79,9 @@ The general section defines the selection of cases and possible compiler extensi
   ]
 ```
 Leaving out the selection section will run all defined cases. Check with `-l` how it works.
-To test different compilers we can add the subtag section. Here we defin the section as active, configurations patterns to exclude and possible extra config files.
+To test different compilers we can add the compiler section. Here we define the section as active, configurations patterns to exclude and possible extra config files.
 ```
-[general.subtags.gnu\_]
+[general.compiler.gnu_]
   active = true
   exclude = ["cy48t2", "cy46h"]
   extra = ["deode/data/config_files/modifications/submission/atos_bologna_gnu.toml"]

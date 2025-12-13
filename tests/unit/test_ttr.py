@@ -1,7 +1,6 @@
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from unittest import mock
 
 import pytest
 import tomlkit
@@ -105,15 +104,15 @@ def test_get_tag_digit(args, monkeypatch):
 
 
 # -------------------------------------------------------------
-# resolve_selection with subtags
+# resolve_selection with compiler
 # -------------------------------------------------------------
-def test_resolve_selection_with_subtags(args):
+def test_resolve_selection_with_compiler(args):
     tc = TestCases(args)
     tc.cases = {"X": {"host": "Xhost"}, "Y": {}}
     definitions = {
         "general": {
             "selection": ["X"],
-            "subtags": {
+            "compiler": {
                 "a": {"active": True, "extra": ["foo", "bar"]},
                 "b": {"active": True, "exclude": ["Y"]},
                 "c": {"active": False},
@@ -137,20 +136,20 @@ def test_resolve_selection_with_subtags(args):
 # -------------------------------------------------------------
 # get_tactus_version
 # -------------------------------------------------------------
-@pytest.mark.parametrize("param", ["tag", "branch", "Unknown"])
+@pytest.mark.parametrize("param", ["tag", "branch", "rev", "Unknown"])
 def test_get_tactus_version(monkeypatch, args, param):
-    filedata = f"""
-        [tool.poetry.dependencies.deode]
-        {param} = "{param}/testbranch"
-    """
     monkeypatch.setattr(
-        "builtins.open", mock.mock_open(read_data=filedata.encode("utf-8"))
+        "tomli.load",
+        lambda _: {
+            "tool": {
+                "poetry": {"dependencies": {"deode": {param: f"{param}/testbranch"}}}
+            }
+        },
     )
 
     args.config_file = None
     tc = TestCases(args)
     version = tc.get_tactus_version()
-
     assert version.startswith(param)
 
 
@@ -211,15 +210,17 @@ def test_list(args):
 # -------------------------------------------------------------
 def test_get_binaries(args, tmp_test_data_dir):
     Path(f"{tmp_test_data_dir}/foo-sp--gnu-.tar").touch()
+    os.environ["DEODE_HOST"] = "atos_bologna"
     args.dry = True
     tc = TestCases(args)
     tc.ial = {
         "ial_hash": "foo",
-        "bindir": f"{tmp_test_data_dir}/testdir/bin",
         "build_tar_path": tmp_test_data_dir,
+        "user_binary_path": tmp_test_data_dir,
     }
     tc.get_binaries()
-    assert os.path.isdir(tc.ial["bindir"][:-4])
+    assert os.path.isdir(f"{tmp_test_data_dir}/foo/gnu/R32")
+    os.environ.pop("DEODE_HOST")
 
 
 # -------------------------------------------------------------
