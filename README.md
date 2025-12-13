@@ -18,8 +18,7 @@ Define the correct tactus version to use in pyproject.toml. This may be a tag, a
 
 ```
 [tool.poetry.dependencies]
-  deode = {git = "git@github.com:uandrae/Deode-Prototype.git", branch = "develop"}
-  #deode = {git = "git@github.com:destination-earth-digital-twins/Deode-Workflow.git", tag = "v0.22.0"}
+  deode = {git = "git@github.com:uandrae/Deode-Prototype.git", branch = "release/v0.24.0"}
 ```
 
 Optionally define the location of your virtual environment in poetry.toml
