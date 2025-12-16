@@ -16,10 +16,19 @@ We currently have the following config files under the directory config_files
 
 Define the correct tactus version to use in pyproject.toml. This may be a tag, a branch or a local copy.
 
+- remote git dependency: 
 ```
 [tool.poetry.dependencies]
   deode = {git = "git@github.com:uandrae/Deode-Prototype.git", branch = "release/v0.24.0"}
 ```
+
+- local repository dependency:
+```
+[tool.poetry.dependencies]
+  deode = {path = "/path/to/local/Deode/repo" }
+```
+
+After updating the deode dependency make sure to run `poetry update` to let poetry install the correct one
 
 Optionally define the location of your virtual environment in poetry.toml
 
