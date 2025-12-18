@@ -1,0 +1,14 @@
+[general]
+  tag = "like_oper_v0_24_0_"
+  selection = [
+    "cy49t2_harmonie_arome_operational",
+    "cy49t2_arome_large_domain_operational",
+  ]
+
+[general.compiler.gnu_]
+  active = true
+
+[include]
+  cases = "case_definitions.toml"
+  macros = "macros.toml"
+  modifs = "modifs_lumi_operational.toml"

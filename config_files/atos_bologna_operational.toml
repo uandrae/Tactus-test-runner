@@ -1,0 +1,12 @@
+[general]
+  tag = "like_oper_v0_24_0_"
+  selection = [
+    "cy49t2_alaro_large_domain_operational_tomorrow",
+    "cy49t2_arome_large_domain_operational",
+    "cy49t2_harmonie_arome_operational",
+  ]
+
+[include]
+  cases = "case_definitions.toml"
+  macros = "macros.toml"
+  modifs = "modifs_atos_bologna_operational.toml"
