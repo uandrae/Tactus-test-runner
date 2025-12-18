@@ -161,7 +161,7 @@ class TestCases:
 
         """
         ial_hash = defs["ial"].get("ial_hash", "latest")
-        prefix = f"{ial_hash[0:7]}_"
+        prefix = f"hash_{ial_hash[0:7]}_"
         self.tag = prefix
 
         self.selection = []
