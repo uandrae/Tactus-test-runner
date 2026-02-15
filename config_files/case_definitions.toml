@@ -57,6 +57,27 @@
 [cases.cy49t2_alaro_eps.modifs.system]
   case_suffix = "_eps"
 
+[cases.cy49t2_alaro_operational]
+  base = "cy49t2_alaro"
+  extra = ["deode/data/config_files/modifications/operational_settings.toml"]
+
+[cases.cy49t2_alaro_operational.modifs.archiving.prefix]
+  ecfs = "ec:/@USER@/DE_NWP/deode/@COMPILER@/"
+
+[cases.cy49t2_alaro_operational.modifs.extractsqlite]
+  sqlite_path = "@CASEDIR@/sqlite/@SQLITE_MODEL_NAME@/FCTABLE"
+
+[cases.cy49t2_alaro_operational.modifs.general]
+  event_type = "nwp"
+
+[cases.cy49t2_alaro_operational.modifs.general.times]
+  end = "-P2D"
+  start = "-P2D"
+
+[cases.cy49t2_alaro_operational.modifs.system]
+  case_suffix = "_oper"
+  scratch_oper = "@SCRATCH@/DE_NWP/deode/@COMPILER@"
+
 [cases.cy49t2_alaro_operational_tomorrow]
   base = "cy49t2_alaro"
   extra = ["deode/data/config_files/modifications/operational_settings.toml"]
@@ -233,6 +254,10 @@
 
 [cases.cy49t2_harmonie_arome_operational.modifs.general]
   event_type = "nwp"
+
+[cases.cy49t2_harmonie_arome_operational.modifs.general.times]
+  end = "-P3D"
+  start = "-P3D"
 
 [cases.cy49t2_harmonie_arome_operational.modifs.suite_control]
   do_archiving = true

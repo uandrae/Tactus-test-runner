@@ -150,8 +150,9 @@ class TestCases:
             tag = next(deode_git[x] for x in ["tag", "branch", "rev"] if x in deode_git)
         except StopIteration:
             tag = "Unknown"
-
-        tag = tag.replace("/", "_").replace(".", "_") + "_"
+        for character in ["/",".","-"]:
+            tag = tag.replace(character, "_")
+        tag += "_"
         return tag
 
     def expand_tests(self, defs):
